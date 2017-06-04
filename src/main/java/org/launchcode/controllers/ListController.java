@@ -16,8 +16,8 @@ import java.util.HashMap;
 @RequestMapping(value = "list")
 public class ListController {
 
+    //collection of the different list and search option
     static HashMap<String, String> columnChoices = new HashMap<>();
-
     public ListController () {
         columnChoices.put("core competency", "Skill");
         columnChoices.put("employer", "Employer");
@@ -26,6 +26,7 @@ public class ListController {
         columnChoices.put("all", "All");
     }
 
+        // displays different types of lists the user can view
     @RequestMapping(value = "")
     public String list(Model model) {
 
@@ -41,12 +42,21 @@ public class ListController {
             ArrayList<HashMap<String, String>> jobs = JobData.findAll();
             model.addAttribute("title", "All Jobs");
             model.addAttribute("jobs", jobs);
+
+            int numberOfEntries = 0;
+            for (HashMap<String, String> number: jobs){
+                numberOfEntries = numberOfEntries + 1;
+            }
+            model.addAttribute("numberOfEntries", (numberOfEntries + " Result(s)"));
+
             return "list-jobs";
         } else {
             ArrayList<String> items = JobData.findAll(column);
             model.addAttribute("title", "All " + columnChoices.get(column) + " Values");
             model.addAttribute("column", column);
             model.addAttribute("items", items);
+
+
             return "list-column";
         }
 
@@ -59,6 +69,13 @@ public class ListController {
         ArrayList<HashMap<String, String>> jobs = JobData.findByColumnAndValue(column, value);
         model.addAttribute("title", "Jobs with " + columnChoices.get(column) + ": " + value);
         model.addAttribute("jobs", jobs);
+
+        int numberOfEntries = 0;
+        for (HashMap<String, String> job: jobs){
+            numberOfEntries = numberOfEntries + 1;
+        }
+        model.addAttribute("numberOfEntries", (numberOfEntries + " Result(s)"));
+
 
         return "list-jobs";
     }
