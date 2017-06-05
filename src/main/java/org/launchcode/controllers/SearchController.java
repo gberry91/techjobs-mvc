@@ -30,7 +30,7 @@ public class SearchController {
     }
 
     // TODO #1 - Create handler to process search request and display results
-    @RequestMapping(value = "results", method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     public String search(Model model, HttpServletRequest request){
         model.addAttribute("columns", ListController.columnChoices);
 
